@@ -1,0 +1,18 @@
+{
+  "test_regression": {
+    "success": 2,
+    "failure": 1
+  },
+  "dependency": {
+    "success": 1,
+    "failure": 0
+  },
+  "deployment_health": {
+    "success": 1,
+    "failure": 1
+  },
+  "ambiguous": {
+    "success": 0,
+    "failure": 0
+  }
+}
