@@ -120,7 +120,7 @@ Every agent receives the same selected scenario object. The LLM receives only th
 ## Screenshots
 Captured from actual local runs (`streamlit run app.py`, select a scenario, click **Run all six agents**). Each scenario has a series of screenshots covering the scenario input, each agent's output, the LLM's tool calls, and the comparison table:
 
-- `screenshots/Scenario-N_01.png` … (normal scenario)
+- `screenshots/Scenario-N_01.png` … `Scenario-N_08.png` (normal scenario)
 - `screenshots/Scenario-A_01.png` … `Scenario-A_08.png`
 - `screenshots/Scenario-B_01.png` … `Scenario-B_08.png`
 - `screenshots/Scenario-C_01.png` … `Scenario-C_08.png`

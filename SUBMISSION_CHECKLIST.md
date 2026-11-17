@@ -15,7 +15,6 @@ Mapped to the official Assignment 1 (set 2) instructions.
 - [x] Python source for all five classical agents and the LLM agent
 - [x] `requirements.txt`, `README.md`, Streamlit UI, setup/run instructions
 - [x] Test results – `test_results.txt` (pytest) and `results/` (all six agents on every scenario)
-- [x] Screenshots – scenarios A, B, C in `screenshots/`
-- [ ] Screenshots – scenario N (normal) in `screenshots/`
+- [x] Screenshots – scenarios N, A, B, C in `screenshots/`
 - [x] Comparison table and explanation of why decisions differ – `COMPARISON.md`
 - [x] No secrets, credentials, or real production logs included
