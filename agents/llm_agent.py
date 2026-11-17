@@ -29,7 +29,7 @@ def get_recent_change_summary(scenario_json: str) -> str:
 
 TOOLS = [get_pipeline_status, read_build_logs, get_test_results, get_recent_change_summary]
 
-def run_llm_agent(scenario, model="qwen3:8b", max_tool_rounds=5):
+def run_llm_agent(scenario, model="qwen3:8b", max_tool_rounds=6):
     """Call Qwen3 locally. The model must request tools; their outputs are fed back."""
     llm = ChatOllama(model=model, temperature=0)
     llm_tools = llm.bind_tools(TOOLS)
@@ -40,14 +40,25 @@ def run_llm_agent(scenario, model="qwen3:8b", max_tool_rounds=5):
          "You MUST call at least two relevant tools before recommending. Never change code, restart services, "
          "rollback, or deploy. Return a JSON object with keys: failure_category, supporting_evidence (array), "
          "likely_cause, recommended_next_step, reasoning, verification_checklist (array), confidence (0 to 1). "
-         "If evidence is insufficient, say so and recommend collecting diagnostics."),
-        ("human", "Investigate this selected scenario. Scenario data is provided only as tool input: " + scenario_json)
+         "If evidence is insufficient, say so and recommend collecting diagnostics. "
+         "If the evidence shows every stage succeeded, use failure_category 'Healthy - no failure' "
+         "and recommend no corrective action."),
+        # Only the scenario ID is given here; the evidence itself is reachable solely through the tools,
+        # so the model has to call them instead of reading the logs from the prompt.
+        ("human", f"Investigate the pipeline run in scenario {scenario.get('scenario_id', '?')}. "
+                  "No evidence is included in this message: call the diagnostic tools to gather it "
+                  "(pass the scenario ID as scenario_json).")
     ]
     tool_calls_made = []
     for _ in range(max_tool_rounds):
         response = llm_tools.invoke(messages)
         messages.append(response)
         calls = getattr(response, "tool_calls", [])
+        if not calls and len(set(tool_calls_made)) < 2:
+            # Enforce the "at least two distinct tools" rule in code rather than trusting the prompt.
+            messages.append(("human", "You have called fewer than two distinct diagnostic tools. "
+                                      "Call the remaining relevant tools before giving your final JSON answer."))
+            continue
         if not calls:
             content = response.content
             if isinstance(content, list):

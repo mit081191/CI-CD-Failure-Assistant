@@ -1,0 +1,145 @@
+{
+  "scenario": "A - Unit tests fail after code change",
+  "model": "qwen3:8b",
+  "run_at": "2026-11-18T01:00:49",
+  "input": {
+    "scenario_id": "A",
+    "pipeline_status": "FAILED at unit-test stage",
+    "build_logs": "Build completed successfully. pytest: 2 failed, 118 passed. AssertionError: expected total=120, got total=100.",
+    "test_results": "FAILED tests/test_invoice.py::test_total_includes_tax. Expected 120.00 but received 100.00.",
+    "dependency_info": "All dependencies installed successfully; no dependency resolution errors.",
+    "recent_change_summary": "Commit abc123 changed calculate_total() and modified tax calculation from inclusive to exclusive.",
+    "deployment_health": "Deployment not started because the test stage failed."
+  },
+  "results": {
+    "Simple Reflex": {
+      "failure_category": "Test regression",
+      "likely_cause": "A recent code change likely introduced a behavior regression.",
+      "recommended_next_step": "Inspect the failing assertion and the latest changed function; reproduce the failure locally.",
+      "supporting_evidence": [
+        "Build completed successfully. pytest: 2 failed, 118 passed. AssertionError: expected total=120, got total=100.",
+        "FAILED tests/test_invoice.py::test_total_includes_tax. Expected 120.00 but received 100.00."
+      ],
+      "reasoning": "Matched the scenario against fixed condition-action rules. Classified signal: test_regression.",
+      "verification_checklist": [
+        "Apply the proposed fix in a separate branch or controlled environment.",
+        "Re-run the relevant build and automated tests.",
+        "Confirm deployment health checks and application logs are healthy.",
+        "Review the pipeline result before approving any release."
+      ],
+      "confidence": 0.82
+    },
+    "Model-Based Reflex": {
+      "failure_category": "Test regression",
+      "likely_cause": "The failure appeared in the test stage and is temporally associated with a code change.",
+      "recommended_next_step": "Compare the failing test and changed files with the last successful commit; isolate the smallest regression.",
+      "supporting_evidence": [
+        "Pipeline status: FAILED at unit-test stage",
+        "Recent changes: Commit abc123 changed calculate_total() and modified tax calculation from inclusive to exclusive.",
+        "Build log: Build completed successfully. pytest: 2 failed, 118 passed. AssertionError: expected total=120, got total=100."
+      ],
+      "reasoning": "Maintained a simple internal model of pipeline stages and combined current observations with recent-change context.",
+      "verification_checklist": [
+        "Apply the proposed fix in a separate branch or controlled environment.",
+        "Re-run the relevant build and automated tests.",
+        "Confirm deployment health checks and application logs are healthy.",
+        "Review the pipeline result before approving any release."
+      ],
+      "confidence": 0.86
+    },
+    "Goal-Based": {
+      "failure_category": "Test regression",
+      "likely_cause": "The next step is selected to satisfy the operational goal: Restore a passing, trustworthy test suite without masking the failure.",
+      "recommended_next_step": "Reproduce the failing unit test, inspect the changed code path, and create a focused regression fix.",
+      "supporting_evidence": [
+        "FAILED at unit-test stage",
+        "FAILED tests/test_invoice.py::test_total_includes_tax. Expected 120.00 but received 100.00.",
+        "Deployment not started because the test stage failed."
+      ],
+      "reasoning": "Selected an action by evaluating which step best advances the explicit recovery goal while avoiding unverified changes.",
+      "verification_checklist": [
+        "Apply the proposed fix in a separate branch or controlled environment.",
+        "Re-run the relevant build and automated tests.",
+        "Confirm deployment health checks and application logs are healthy.",
+        "Review the pipeline result before approving any release."
+      ],
+      "confidence": 0.84
+    },
+    "Utility-Based": {
+      "failure_category": "Test regression",
+      "likely_cause": "Most likely cause associated with the observed test regression signals.",
+      "recommended_next_step": "Inspect the failing test and changed code first.",
+      "supporting_evidence": [
+        "Build completed successfully. pytest: 2 failed, 118 passed. AssertionError: expected total=120, got total=100.",
+        "FAILED tests/test_invoice.py::test_total_includes_tax. Expected 120.00 but received 100.00.",
+        "All dependencies installed successfully; no dependency resolution errors.",
+        "Deployment not started because the test stage failed."
+      ],
+      "reasoning": "High diagnostic value, low operational risk, and moderate effort make targeted test investigation the best utility choice. The heuristic favors evidence, reversibility, and low risk.",
+      "verification_checklist": [
+        "Apply the proposed fix in a separate branch or controlled environment.",
+        "Re-run the relevant build and automated tests.",
+        "Confirm deployment health checks and application logs are healthy.",
+        "Review the pipeline result before approving any release."
+      ],
+      "confidence": 0.8
+    },
+    "Learning Agent": {
+      "failure_category": "Test regression",
+      "likely_cause": "Likely cause inferred from current signals; past outcomes influence the investigation strategy.",
+      "recommended_next_step": "Reproduce the failing unit test and inspect the recent code diff.",
+      "supporting_evidence": [
+        "Build completed successfully. pytest: 2 failed, 118 passed. AssertionError: expected total=120, got total=100.",
+        "FAILED tests/test_invoice.py::test_total_includes_tax. Expected 120.00 but received 100.00.",
+        "All dependencies installed successfully; no dependency resolution errors.",
+        "Deployment not started because the test stage failed."
+      ],
+      "reasoning": "Experience for 'test_regression': 2 successes, 1 failures; Laplace-smoothed success estimate = 0.60. This history adjusts how cautious the recommended next step is.",
+      "verification_checklist": [
+        "Apply the proposed fix in a separate branch or controlled environment.",
+        "Re-run the relevant build and automated tests.",
+        "Confirm deployment health checks and application logs are healthy.",
+        "Review the pipeline result before approving any release."
+      ],
+      "confidence": 0.76,
+      "experience": {
+        "success": 2,
+        "failure": 1,
+        "estimated_success_rate": 0.6
+      }
+    },
+    "LLM (Ollama)": {
+      "failure_category": "Test Failure",
+      "supporting_evidence": [
+        {
+          "tool": "get_pipeline_status",
+          "finding": "Pipeline failed at unit-test stage"
+        },
+        {
+          "tool": "read_build_logs",
+          "finding": "2 tests failed with AssertionError: expected total=120, got total=100"
+        }
+      ],
+      "likely_cause": "Unit test failure due to mismatched expected vs actual values (expected 120, got 100). This suggests a logic error in the code under test or test assertion configuration.",
+      "recommended_next_step": "Analyze specific test results and code changes around the failing test",
+      "reasoning": "The pipeline failed during unit testing with concrete assertion errors. The build completed successfully, so the issue is isolated to test execution. We need to examine which tests failed and correlate with code changes.",
+      "verification_checklist": [
+        {
+          "step": "get_test_results",
+          "purpose": "Identify which specific tests failed and their error details"
+        },
+        {
+          "step": "get_recent_change_summary",
+          "purpose": "Check if recent code changes affect the tested logic"
+        }
+      ],
+      "confidence": 0.85,
+      "tools_called": [
+        "get_pipeline_status",
+        "read_build_logs"
+      ],
+      "agent": "LLM (Ollama)",
+      "runtime_seconds": 108.9
+    }
+  }
+}

@@ -85,7 +85,7 @@ if "results" in st.session_state:
     outcome = st.radio("Was the Learning Agent's diagnostic approach successful?", ["Not evaluated", "Success", "Failure"], horizontal=True)
     if st.button("Save learning outcome", disabled=(outcome == "Not evaluated")):
         category = {
-            "A": "test_regression", "B": "dependency",
+            "N": "healthy", "A": "test_regression", "B": "dependency",
             "C": "deployment_health", "D": "ambiguous"
         }.get(scenario.get("scenario_id"), "ambiguous")
         learner = LearningAgent()

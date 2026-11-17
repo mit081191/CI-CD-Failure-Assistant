@@ -1,4 +1,8 @@
 {
+  "healthy": {
+    "success": 0,
+    "failure": 0
+  },
   "test_regression": {
     "success": 2,
     "failure": 1

@@ -1,0 +1,139 @@
+{
+  "scenario": "D - Ambiguous edge case",
+  "model": "qwen3:8b",
+  "run_at": "2026-11-18T01:05:44",
+  "input": {
+    "scenario_id": "D",
+    "pipeline_status": "FAILED; stage attribution unavailable",
+    "build_logs": "Pipeline marked failed. Log excerpt is truncated: 'process exited with code 1'.",
+    "test_results": "No test report was attached.",
+    "dependency_info": "Dependency installation output unavailable.",
+    "recent_change_summary": "Several files changed; commit summary is unavailable.",
+    "deployment_health": "Unknown; no health-check data supplied."
+  },
+  "results": {
+    "Simple Reflex": {
+      "failure_category": "Unclassified pipeline failure",
+      "likely_cause": "The available signals do not uniquely identify the failure.",
+      "recommended_next_step": "Collect the full failing job log, test report, dependency lockfile, and deployment events before changing anything.",
+      "supporting_evidence": [
+        "Pipeline marked failed. Log excerpt is truncated: 'process exited with code 1'.",
+        "No test report was attached."
+      ],
+      "reasoning": "Matched the scenario against fixed condition-action rules. Classified signal: ambiguous.",
+      "verification_checklist": [
+        "Apply the proposed fix in a separate branch or controlled environment.",
+        "Re-run the relevant build and automated tests.",
+        "Confirm deployment health checks and application logs are healthy.",
+        "Review the pipeline result before approving any release."
+      ],
+      "confidence": 0.65
+    },
+    "Model-Based Reflex": {
+      "failure_category": "Unclassified pipeline failure",
+      "likely_cause": "The internal state model lacks enough observations to identify a single failure stage.",
+      "recommended_next_step": "Gather stage-level timestamps, complete logs, and the last known-good pipeline state.",
+      "supporting_evidence": [
+        "Pipeline status: FAILED; stage attribution unavailable",
+        "Recent changes: Several files changed; commit summary is unavailable.",
+        "Build log: Pipeline marked failed. Log excerpt is truncated: 'process exited with code 1'."
+      ],
+      "reasoning": "Maintained a simple internal model of pipeline stages and combined current observations with recent-change context.",
+      "verification_checklist": [
+        "Apply the proposed fix in a separate branch or controlled environment.",
+        "Re-run the relevant build and automated tests.",
+        "Confirm deployment health checks and application logs are healthy.",
+        "Review the pipeline result before approving any release."
+      ],
+      "confidence": 0.55
+    },
+    "Goal-Based": {
+      "failure_category": "Unclassified pipeline failure",
+      "likely_cause": "The next step is selected to satisfy the operational goal: Reduce uncertainty before taking corrective action.",
+      "recommended_next_step": "Collect missing diagnostics and identify the first failing pipeline stage.",
+      "supporting_evidence": [
+        "FAILED; stage attribution unavailable",
+        "No test report was attached.",
+        "Unknown; no health-check data supplied."
+      ],
+      "reasoning": "Selected an action by evaluating which step best advances the explicit recovery goal while avoiding unverified changes.",
+      "verification_checklist": [
+        "Apply the proposed fix in a separate branch or controlled environment.",
+        "Re-run the relevant build and automated tests.",
+        "Confirm deployment health checks and application logs are healthy.",
+        "Review the pipeline result before approving any release."
+      ],
+      "confidence": 0.5
+    },
+    "Utility-Based": {
+      "failure_category": "Unclassified pipeline failure",
+      "likely_cause": "Most likely cause associated with the observed ambiguous signals.",
+      "recommended_next_step": "Gather complete stage logs and identify the first failing stage.",
+      "supporting_evidence": [
+        "Pipeline marked failed. Log excerpt is truncated: 'process exited with code 1'.",
+        "No test report was attached.",
+        "Dependency installation output unavailable.",
+        "Unknown; no health-check data supplied."
+      ],
+      "reasoning": "When evidence is weak, information gathering has higher expected utility than a speculative fix. The heuristic favors evidence, reversibility, and low risk.",
+      "verification_checklist": [
+        "Apply the proposed fix in a separate branch or controlled environment.",
+        "Re-run the relevant build and automated tests.",
+        "Confirm deployment health checks and application logs are healthy.",
+        "Review the pipeline result before approving any release."
+      ],
+      "confidence": 0.45
+    },
+    "Learning Agent": {
+      "failure_category": "Unclassified pipeline failure",
+      "likely_cause": "Likely cause inferred from current signals; past outcomes influence the investigation strategy.",
+      "recommended_next_step": "Gather missing stage-level evidence before choosing a fix.",
+      "supporting_evidence": [
+        "Pipeline marked failed. Log excerpt is truncated: 'process exited with code 1'.",
+        "No test report was attached.",
+        "Dependency installation output unavailable.",
+        "Unknown; no health-check data supplied."
+      ],
+      "reasoning": "Experience for 'ambiguous': 0 successes, 0 failures; Laplace-smoothed success estimate = 0.50. This history adjusts how cautious the recommended next step is.",
+      "verification_checklist": [
+        "Apply the proposed fix in a separate branch or controlled environment.",
+        "Re-run the relevant build and automated tests.",
+        "Confirm deployment health checks and application logs are healthy.",
+        "Review the pipeline result before approving any release."
+      ],
+      "confidence": 0.73,
+      "experience": {
+        "success": 0,
+        "failure": 0,
+        "estimated_success_rate": 0.5
+      }
+    },
+    "LLM (Ollama)": {
+      "failure_category": "Insufficient Evidence",
+      "supporting_evidence": [
+        "Pipeline status shows 'FAILED; stage attribution unavailable'",
+        "Build logs indicate exit code 1 but are truncated",
+        "No test results or health-check data available",
+        "Recent changes and dependency information missing"
+      ],
+      "likely_cause": "Incomplete diagnostic data prevents definitive root cause analysis. The failure could be due to build configuration errors, missing dependencies, or code issues, but evidence is insufficient to determine specifics.",
+      "recommended_next_step": "Collect full build logs, test reports, dependency resolution outputs, and pipeline stage metrics. Verify if stage-specific failure attribution was disabled in the CI configuration.",
+      "reasoning": "The pipeline failure status is non-specific, build logs are truncated, and critical diagnostic data (tests, dependencies, changes) is missing. Without this information, causal analysis cannot proceed.",
+      "verification_checklist": [
+        "Enable detailed stage attribution in pipeline configuration",
+        "Configure log retention policies to preserve full build outputs",
+        "Ensure test results are automatically attached to pipeline runs",
+        "Verify dependency resolution logging is enabled"
+      ],
+      "confidence": 0.3,
+      "tools_called": [
+        "get_pipeline_status",
+        "read_build_logs",
+        "get_test_results",
+        "get_recent_change_summary"
+      ],
+      "agent": "LLM (Ollama)",
+      "runtime_seconds": 88.9
+    }
+  }
+}

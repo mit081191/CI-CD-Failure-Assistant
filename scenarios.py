@@ -1,5 +1,14 @@
-"""Three fixed, reproducible scenarios shared by every agent."""
+"""Fixed, reproducible scenarios shared by every agent: one normal run, three failures, one ambiguous edge case."""
 SCENARIOS = {
+    "N - Normal: pipeline succeeds": {
+        "scenario_id": "N",
+        "pipeline_status": "SUCCEEDED - all stages passed",
+        "build_logs": "Build successful. Release image created and pushed successfully.",
+        "test_results": "120 passed, 0 failed. Integration tests passed against test environment.",
+        "dependency_info": "Dependencies installed successfully and lockfile is unchanged.",
+        "recent_change_summary": "Commit jkl012 updated README wording and a log message. No dependency or configuration changes.",
+        "deployment_health": "Deployment completed. Readiness and liveness probes passing; GET /health returned HTTP 200."
+    },
     "A - Unit tests fail after code change": {
         "scenario_id": "A",
         "pipeline_status": "FAILED at unit-test stage",
