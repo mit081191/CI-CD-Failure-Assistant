@@ -1,0 +1,33 @@
+{
+  "description": "Seed experience: outcomes of past pipeline investigations recorded by the team. Counts are updated by feedback in the UI (data/experience.json).",
+  "signature_outcomes": {
+    "unit_test|assertion_error": {"TEST_FAILURE": 9, "FLAKY_TEST_OR_CI_INFRA": 1},
+    "unit_test|timeout_error": {"FLAKY_TEST_OR_CI_INFRA": 5, "TEST_FAILURE": 3},
+    "build|dependency_resolution_error": {"DEPENDENCY_FAILURE": 7, "FLAKY_TEST_OR_CI_INFRA": 1},
+    "health_check|missing_config": {"DEPLOYMENT_HEALTH_FAILURE": 4},
+    "health_check|readiness_probe_failed": {"DEPLOYMENT_HEALTH_FAILURE": 3, "FLAKY_TEST_OR_CI_INFRA": 1}
+  },
+  "action_outcomes": {
+    "TEST_FAILURE": {
+      "Reproduce the failing tests locally on the suspect commit": {"success": 8, "failure": 1},
+      "Re-run the pipeline without changes": {"success": 1, "failure": 6},
+      "Ask the commit author to review the failing assertion against the diff": {"success": 4, "failure": 2}
+    },
+    "DEPENDENCY_FAILURE": {
+      "Check the package index for the pinned versions and runner Python compatibility": {"success": 6, "failure": 1},
+      "Clear the CI dependency cache and re-run": {"success": 1, "failure": 4},
+      "Pin back to the last versions used by the green build": {"success": 3, "failure": 1}
+    },
+    "DEPLOYMENT_HEALTH_FAILURE": {
+      "Diff runtime configuration/env vars between healthy and failing release": {"success": 5, "failure": 1},
+      "Restart the failing pods": {"success": 0, "failure": 4},
+      "Recommend rollback to the release owner": {"success": 3, "failure": 1}
+    },
+    "FLAKY_TEST_OR_CI_INFRA": {
+      "Re-run the job on a different runner and check runner/test-DB health": {"success": 5, "failure": 1},
+      "Increase the test timeout": {"success": 2, "failure": 3},
+      "Quarantine the test immediately": {"success": 1, "failure": 2}
+    }
+  },
+  "episodes": []
+}

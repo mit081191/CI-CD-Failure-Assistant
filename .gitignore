@@ -1,14 +1,4 @@
-# Python
 __pycache__/
-*.pyc
 .pytest_cache/
-
-# Virtual environment
+data/experience.json
 .venv/
-venv/
-
-# Editor / OS
-.vscode/
-.idea/
-Thumbs.db
-.DS_Store

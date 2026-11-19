@@ -1,0 +1,30 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.3, pytest-9.2.0, pluggy-1.7.0 -- D:\BITS_Certification\Agentic_AI_Assignment1\cicd_failure_assistance\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\BITS_Certification\Agentic_AI_Assignment1\cicd_failure_assistance
+plugins: anyio-4.16.0, langsmith-0.15.0
+collecting ... collected 21 items
+
+tests/test_agents.py::test_at_least_three_scenarios_including_edge_case PASSED [  4%]
+tests/test_agents.py::test_agents_receive_identical_unmodified_input PASSED [  9%]
+tests/test_agents.py::test_every_decision_has_required_fields[A] PASSED  [ 14%]
+tests/test_agents.py::test_every_decision_has_required_fields[B] PASSED  [ 19%]
+tests/test_agents.py::test_every_decision_has_required_fields[C] PASSED  [ 23%]
+tests/test_agents.py::test_every_decision_has_required_fields[D] PASSED  [ 28%]
+tests/test_agents.py::test_all_classical_agents_correct_on_clear_scenarios[A] PASSED [ 33%]
+tests/test_agents.py::test_all_classical_agents_correct_on_clear_scenarios[B] PASSED [ 38%]
+tests/test_agents.py::test_all_classical_agents_correct_on_clear_scenarios[C] PASSED [ 42%]
+tests/test_agents.py::test_edge_case_simple_reflex_misled_others_recover PASSED [ 47%]
+tests/test_agents.py::test_model_based_uses_history_state PASSED         [ 52%]
+tests/test_agents.py::test_goal_based_plan_reaches_goal PASSED           [ 57%]
+tests/test_agents.py::test_utility_based_rejects_risky_rollback_in_c PASSED [ 61%]
+tests/test_agents.py::test_learning_agent_updates_experience_and_changes_decision PASSED [ 66%]
+tests/test_agents.py::test_learning_agent_success_raises_rate PASSED     [ 71%]
+tests/test_agents.py::test_tools_return_scenario_data PASSED             [ 76%]
+tests/test_agents.py::test_llm_agent_tool_loop_and_grounding PASSED      [ 80%]
+tests/test_agents.py::test_llm_agent_forced_to_use_two_tools PASSED      [ 85%]
+tests/test_agents.py::test_llm_agent_handles_unavailable_ollama PASSED   [ 90%]
+tests/test_agents.py::test_json_extraction_and_quote_verification PASSED [ 95%]
+tests/test_agents.py::test_comparison_and_explanation PASSED             [100%]
+
+============================= 21 passed in 3.66s ==============================

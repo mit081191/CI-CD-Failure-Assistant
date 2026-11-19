@@ -1,0 +1,1352 @@
+{
+  "A": {
+    "Simple Reflex": {
+      "agent": "Simple Reflex",
+      "mechanism": "Ordered condition-action rules on the current percept (no memory)",
+      "failure_category": "TEST_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'unit_test'",
+        "Failing test: tests/test_pricing.py::test_apply_discount",
+        "Failing test: tests/test_pricing.py::test_bulk_order_discount",
+        "[12:02:55] FAILED tests/test_pricing.py::test_apply_discount - AssertionError: assert 81.0 == 90.0",
+        "2 test(s) failed again on retry (deterministic)",
+        "Latest change touches module under test: shop_api/pricing.py"
+      ],
+      "likely_cause": "Recent code change broke one or more tests.",
+      "next_step": "Open the failing test output and compare it with the latest code change.",
+      "verification_checklist": [
+        "Failing tests pass locally on the fixed commit",
+        "Full unit-test suite passes in CI (no new failures)",
+        "A regression test covers the corrected behaviour",
+        "Code review approved for the fix commit"
+      ],
+      "reasoning": [
+        "R1: dependency error text in log -> no match",
+        "R2: test stage failed -> MATCH",
+        "First matching rule fires; remaining rules are not evaluated."
+      ],
+      "confidence": 0.6,
+      "details": {
+        "fired_rule": "R2: test stage failed"
+      },
+      "category_label": "Unit/integration test failure (code regression)"
+    },
+    "Model-Based Reflex": {
+      "agent": "Model-Based Reflex",
+      "mechanism": "Rules over an internal pipeline state updated from history + current percept",
+      "failure_category": "TEST_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'unit_test'",
+        "Failing test: tests/test_pricing.py::test_apply_discount",
+        "Failing test: tests/test_pricing.py::test_bulk_order_discount",
+        "[12:02:55] FAILED tests/test_pricing.py::test_apply_discount - AssertionError: assert 81.0 == 90.0",
+        "2 test(s) failed again on retry (deterministic)",
+        "Latest change touches module under test: shop_api/pricing.py"
+      ],
+      "likely_cause": "Commit a91f3c2 changed shop_api/pricing.py and broke tests that passed on the previous green commit.",
+      "next_step": "Diff a91f3c2 against last green commit 7d02be1 for the module under test and reproduce the failing tests locally.",
+      "verification_checklist": [
+        "Failing tests pass locally on the fixed commit",
+        "Full unit-test suite passes in CI (no new failures)",
+        "A regression test covers the corrected behaviour",
+        "Code review approved for the fix commit"
+      ],
+      "reasoning": [
+        "State: last green commit = 7d02be1, parent commit = 7d02be1 (parent green: True)",
+        "State: last healthy deployed version = None",
+        "State: runs observed for this pipeline = 4",
+        "Rule: tests failed AND parent commit was green in the state model -> regression introduced by latest commit"
+      ],
+      "confidence": 0.85,
+      "details": {
+        "last_green_commit": "7d02be1",
+        "last_healthy_version": null,
+        "flaky_tests": {}
+      },
+      "category_label": "Unit/integration test failure (code regression)"
+    },
+    "Goal-Based": {
+      "agent": "Goal-Based",
+      "mechanism": "Uniform-cost search for an action plan that reaches the goal (cause confirmed + fix path)",
+      "failure_category": "TEST_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'unit_test'",
+        "Failing test: tests/test_pricing.py::test_apply_discount",
+        "Failing test: tests/test_pricing.py::test_bulk_order_discount",
+        "[12:02:55] FAILED tests/test_pricing.py::test_apply_discount - AssertionError: assert 81.0 == 90.0",
+        "2 test(s) failed again on retry (deterministic)",
+        "Latest change touches module under test: shop_api/pricing.py"
+      ],
+      "likely_cause": "The latest code change in the module under test introduced a deterministic regression.",
+      "next_step": "Map failing tests to the files changed in the latest commit",
+      "verification_checklist": [
+        "Failing tests pass locally on the fixed commit",
+        "Full unit-test suite passes in CI (no new failures)",
+        "A regression test covers the corrected behaviour",
+        "Code review approved for the fix commit"
+      ],
+      "reasoning": [
+        "Initial facts: ['change_touches_failing_module', 'deterministic_failure', 'tests_failed']",
+        "Goal: ['fix_path_identified', 'root_cause_confirmed']",
+        "Search expanded 3 states",
+        "Plan step 1: Map failing tests to the files changed in the latest commit (cost 5 min) -> adds ['suspect_change_identified']",
+        "Plan step 2: Reproduce the failing tests locally on the suspect commit and its parent (cost 15 min) -> adds ['root_cause_confirmed']",
+        "Plan step 3: Hand the failing assertion + diff to the commit author for a fix in a new commit (cost 5 min) -> adds ['fix_path_identified']",
+        "Plan reaches goal with total estimated cost 25 min; category confirmed by plan: TEST_FAILURE"
+      ],
+      "confidence": 0.8,
+      "details": {
+        "plan": [
+          "Map failing tests to the files changed in the latest commit",
+          "Reproduce the failing tests locally on the suspect commit and its parent",
+          "Hand the failing assertion + diff to the commit author for a fix in a new commit"
+        ],
+        "plan_cost_min": 25,
+        "facts": [
+          "change_touches_failing_module",
+          "deterministic_failure",
+          "tests_failed"
+        ]
+      },
+      "category_label": "Unit/integration test failure (code regression)"
+    },
+    "Utility-Based": {
+      "agent": "Utility-Based",
+      "mechanism": "Maximise expected utility = benefit x P(cause) x value - cost - risk",
+      "failure_category": "TEST_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'unit_test'",
+        "Failing test: tests/test_pricing.py::test_apply_discount",
+        "Failing test: tests/test_pricing.py::test_bulk_order_discount",
+        "[12:02:55] FAILED tests/test_pricing.py::test_apply_discount - AssertionError: assert 81.0 == 90.0",
+        "2 test(s) failed again on retry (deterministic)",
+        "Latest change touches module under test: shop_api/pricing.py"
+      ],
+      "likely_cause": "Most probable: a code regression in the recently changed module. (p=0.87)",
+      "next_step": "Reproduce failing tests locally against the latest diff",
+      "verification_checklist": [
+        "Failing tests pass locally on the fixed commit",
+        "Full unit-test suite passes in CI (no new failures)",
+        "A regression test covers the corrected behaviour",
+        "Code review approved for the fix commit"
+      ],
+      "reasoning": [
+        "Active evidence features: ['tests_failed', 'assertion_error', 'deterministic_retry', 'change_touches_failing_module']",
+        "Belief P(cause|evidence): TEST_FAILURE=0.87, DEPENDENCY_FAILURE=0.05, DEPLOYMENT_HEALTH_FAILURE=0.05, FLAKY_TEST_OR_CI_INFRA=0.03",
+        "EU(Reproduce failing tests locally against the latest diff...) = 66.8",
+        "EU(Recommend reverting the latest commit (owner decides)...) = 42.9",
+        "EU(Collect full untruncated logs and escalate to the pipeline o...) = 14.0",
+        "Chosen action maximises EU (66.8); most probable cause TEST_FAILURE (p=0.87)"
+      ],
+      "confidence": 0.87,
+      "details": {
+        "beliefs": {
+          "TEST_FAILURE": 0.866,
+          "DEPENDENCY_FAILURE": 0.053,
+          "DEPLOYMENT_HEALTH_FAILURE": 0.053,
+          "FLAKY_TEST_OR_CI_INFRA": 0.029
+        },
+        "utility_table": [
+          {
+            "action": "Reproduce failing tests locally against the latest diff",
+            "expected_value": 0.788,
+            "cost_min": 15,
+            "risk": 0.0,
+            "expected_utility": 66.8
+          },
+          {
+            "action": "Recommend reverting the latest commit (owner decides)",
+            "expected_value": 0.659,
+            "cost_min": 10,
+            "risk": 0.25,
+            "expected_utility": 42.9
+          },
+          {
+            "action": "Collect full untruncated logs and escalate to the pipeline owner",
+            "expected_value": 0.3,
+            "cost_min": 20,
+            "risk": 0.0,
+            "expected_utility": 14.0
+          },
+          {
+            "action": "Re-run failed job on a different runner and check runner/test-DB health",
+            "expected_value": 0.199,
+            "cost_min": 10,
+            "risk": 0.02,
+            "expected_utility": 10.7
+          },
+          {
+            "action": "Verify requested package versions on the index and runner Python compatibility",
+            "expected_value": 0.05,
+            "cost_min": 5,
+            "risk": 0.0,
+            "expected_utility": 1.0
+          },
+          {
+            "action": "Inspect failing health checks + startup logs and diff runtime config vs previous release",
+            "expected_value": 0.047,
+            "cost_min": 10,
+            "risk": 0.0,
+            "expected_utility": -3.3
+          },
+          {
+            "action": "Recommend immediate production rollback to the release owner",
+            "expected_value": 0.042,
+            "cost_min": 5,
+            "risk": 0.35,
+            "expected_utility": -20.8
+          }
+        ]
+      },
+      "category_label": "Unit/integration test failure (code regression)"
+    },
+    "Learning": {
+      "agent": "Learning",
+      "mechanism": "Experience-driven: signature->category counts and action success/failure rates, updated by feedback",
+      "failure_category": "TEST_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'unit_test'",
+        "Failing test: tests/test_pricing.py::test_apply_discount",
+        "Failing test: tests/test_pricing.py::test_bulk_order_discount",
+        "[12:02:55] FAILED tests/test_pricing.py::test_apply_discount - AssertionError: assert 81.0 == 90.0",
+        "2 test(s) failed again on retry (deterministic)",
+        "Latest change touches module under test: shop_api/pricing.py"
+      ],
+      "likely_cause": "Past failures with this signature were mostly code regressions.",
+      "next_step": "Reproduce the failing tests locally on the suspect commit",
+      "verification_checklist": [
+        "Failing tests pass locally on the fixed commit",
+        "Full unit-test suite passes in CI (no new failures)",
+        "A regression test covers the corrected behaviour",
+        "Code review approved for the fix commit"
+      ],
+      "reasoning": [
+        "Failure signature: 'unit_test|assertion_error'",
+        "Experience for this signature (confirmed categories): {'TEST_FAILURE': 9, 'FLAKY_TEST_OR_CI_INFRA': 1}",
+        "Laplace-smoothed P(category|signature): TEST_FAILURE=0.71, FLAKY_TEST_OR_CI_INFRA=0.14, DEPENDENCY_FAILURE=0.07, DEPLOYMENT_HEALTH_FAILURE=0.07",
+        "Action success rates for TEST_FAILURE ((s+1)/(s+f+2)):",
+        "  Reproduce the failing tests locally on the suspect commit: 8 success / 1 failure -> 0.818",
+        "  Ask the commit author to review the failing assertion against the diff: 4 success / 2 failure -> 0.625",
+        "  Re-run the pipeline without changes: 1 success / 6 failure -> 0.222",
+        "Chosen: 'Reproduce the failing tests locally on the suspect commit' because it has the highest learned success rate.",
+        "Feedback recorded in the UI updates these counts and can change future decisions."
+      ],
+      "confidence": 0.71,
+      "details": {
+        "signature": "unit_test|assertion_error",
+        "signature_counts": {
+          "TEST_FAILURE": 9,
+          "FLAKY_TEST_OR_CI_INFRA": 1
+        },
+        "action_stats": [
+          {
+            "action": "Reproduce the failing tests locally on the suspect commit",
+            "success": 8,
+            "failure": 1,
+            "success_rate": 0.818
+          },
+          {
+            "action": "Ask the commit author to review the failing assertion against the diff",
+            "success": 4,
+            "failure": 2,
+            "success_rate": 0.625
+          },
+          {
+            "action": "Re-run the pipeline without changes",
+            "success": 1,
+            "failure": 6,
+            "success_rate": 0.222
+          }
+        ],
+        "exploratory": false,
+        "episodes_so_far": 0
+      },
+      "category_label": "Unit/integration test failure (code regression)"
+    },
+    "LLM (Ollama + tools)": {
+      "agent": "LLM (Ollama + tools)",
+      "mechanism": "Local LLM via LangChain; investigates by tool calling; grounded, verified JSON answer",
+      "failure_category": "TEST_FAILURE",
+      "evidence": [
+        "[get_pipeline_status] failed_stage: unit_test  (verified)",
+        "[get_test_results] failed: 2  (verified)",
+        "[get_test_results] assert 81.0 == 90.0  (verified)",
+        "[get_test_results] assert 729.0 == 810.0  (verified)"
+      ],
+      "likely_cause": "The unit tests failed due to assertion errors in the pricing module, indicating a potential issue with the discount calculation logic.",
+      "next_step": "Review the test cases and the pricing logic in the shop_api/pricing.py module to identify and fix the discrepancy in the discount calculations.",
+      "verification_checklist": [
+        "Re-run the unit tests to confirm the issue is resolved.",
+        "Verify that the pricing logic now correctly calculates the expected discounts."
+      ],
+      "reasoning": [
+        "Step 1: called get_pipeline_status()",
+        "Step 2: called get_test_results()",
+        "Step 3: model produced final answer",
+        "Tools used (2 distinct): get_pipeline_status, get_test_results",
+        "Grounding check: 4/4 evidence quotes found in tool outputs",
+        "Model reasoning: The pipeline failed at the unit test stage, and the test results show two assertion errors in the pricing module. These errors suggest that the discount calculations are not producing the expected results, which is likely due to a bug in the pricing logic."
+      ],
+      "confidence": 0.95,
+      "details": {
+        "model": "qwen3:8b",
+        "tool_calls": [
+          {
+            "step": 1,
+            "tool": "get_pipeline_status",
+            "args": {},
+            "output": "{\n \"pipeline\": \"shop-api / main\",\n \"run_id\": 4812,\n \"branch\": \"main\",\n \"commit\": \"a91f3c2\",\n \"parent_commit\": \"7d02be1\",\n \"trigger\": \"push\",\n \"overall\": \"failed\",\n \"failed_stage\": \"unit_test\",\n \"stages\": [\n  {\n   \"name\": \"checkout\",\n   \"status\": \"success\",\n   \"duration_s\": 4\n  },\n  {\n   \"name\": \"build\",\n   \"status\": \"success\",\n   \"duration_s\": 62\n  },\n  {\n   \"name\": \"unit_test\",\n   \"status\": \"failed\",\n   \"duration_s\": 48\n  },\n  {\n   \"name\": \"package\",\n   \"status\": \"skipped\",\n   \"duration_s\": 0\n  },\n  {\n   \"name\": \"deploy_canary\",\n   \"status\": \"skipped\",\n   \"duration_s\": 0\n  },\n  {\n   \"name\": \"health_check\",\n   \"status\": \"skipped\",\n   \"duration_s\": 0\n  }\n ]\n}"
+          },
+          {
+            "step": 2,
+            "tool": "get_test_results",
+            "args": {},
+            "output": "{\n \"executed\": true,\n \"total\": 188,\n \"passed\": 186,\n \"failed\": 2,\n \"skipped\": 0,\n \"failed_on_retry\": 2,\n \"failures\": [\n  {\n   \"test\": \"tests/test_pricing.py::test_apply_discount\",\n   \"error_type\": \"AssertionError\",\n   \"message\": \"assert 81.0 == 90.0\",\n   \"module_under_test\": \"shop_api/pricing.py\"\n  },\n  {\n   \"test\": \"tests/test_pricing.py::test_bulk_order_discount\",\n   \"error_type\": \"AssertionError\",\n   \"message\": \"assert 729.0 == 810.0\",\n   \"module_under_test\": \"shop_api/pricing.py\"\n  }\n ]\n}"
+          }
+        ],
+        "distinct_tools": [
+          "get_pipeline_status",
+          "get_test_results"
+        ],
+        "grounding_score": 1.0,
+        "evidence_check": [
+          {
+            "tool": "get_pipeline_status",
+            "quote": "failed_stage: unit_test",
+            "verified": true,
+            "tool_was_called": true
+          },
+          {
+            "tool": "get_test_results",
+            "quote": "failed: 2",
+            "verified": true,
+            "tool_was_called": true
+          },
+          {
+            "tool": "get_test_results",
+            "quote": "assert 81.0 == 90.0",
+            "verified": true,
+            "tool_was_called": true
+          },
+          {
+            "tool": "get_test_results",
+            "quote": "assert 729.0 == 810.0",
+            "verified": true,
+            "tool_was_called": true
+          }
+        ],
+        "raw_response": "{\n  \"failure_category\": \"TEST_FAILURE\",\n  \"evidence\": [\n    {\"tool\": \"get_pipeline_status\", \"quote\": \"failed_stage: unit_test\"},\n    {\"tool\": \"get_test_results\", \"quote\": \"failed: 2\"},\n    {\"tool\": \"get_test_results\", \"quote\": \"assert 81.0 == 90.0\"},\n    {\"tool\": \"get_test_results\", \"quote\": \"assert 729.0 == 810.0\"}\n  ],\n  \"likely_cause\": \"The unit tests failed due to assertion errors in the pricing module, indicating a potential issue with the discount calculation logic.\",\n  \"next_step\": \"Review the test cases and the pricing logic in the shop_api/pricing.py module to identify and fix the discrepancy in the discount calculations.\",\n  \"verification_checklist\": [\n    \"Re-run the unit tests to confirm the issue is resolved.\",\n    \"Verify that the pricing logic now correctly calculates the expected discounts.\"\n  ],\n  \"confidence\": 0.95,\n  \"reasoning\": \"The pipeline failed at the unit test stage, and the test results show two assertion errors in the pricing module. These errors suggest that the discount calculations are not producing the expected results, which is likely due to a bug in the pricing logic.\"\n}",
+        "elapsed_s": 69.0
+      },
+      "category_label": "Unit/integration test failure (code regression)"
+    }
+  },
+  "B": {
+    "Simple Reflex": {
+      "agent": "Simple Reflex",
+      "mechanism": "Ordered condition-action rules on the current percept (no memory)",
+      "failure_category": "DEPENDENCY_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'build'",
+        "orjson==3.12.9: no matching distribution (latest available 3.10.15)",
+        "numpy==2.3.1: requires Python >=3.11, runner has 3.10",
+        "[09:14:31] ERROR: Could not find a version that satisfies the requirement numpy==2.3.1 (from versions: 1.26.4, 2.0.2, 2.1.3, 2.2.6)",
+        "Dependency manifest changed in the latest commit"
+      ],
+      "likely_cause": "A required package version cannot be resolved from the package index.",
+      "next_step": "Check the package index for the requested versions and correct the pin in the manifest.",
+      "verification_checklist": [
+        "Pinned version exists on the package index for the runner's Python version",
+        "Lock file regenerated and committed; clean install succeeds from an empty cache",
+        "Build stage and full test suite pass with the new pin",
+        "Changelog of the dependency checked for breaking changes"
+      ],
+      "reasoning": [
+        "R1: dependency error text in log -> MATCH",
+        "First matching rule fires; remaining rules are not evaluated."
+      ],
+      "confidence": 0.6,
+      "details": {
+        "fired_rule": "R1: dependency error text in log"
+      },
+      "category_label": "Build failure (dependency / version unavailable or incompatible)"
+    },
+    "Model-Based Reflex": {
+      "agent": "Model-Based Reflex",
+      "mechanism": "Rules over an internal pipeline state updated from history + current percept",
+      "failure_category": "DEPENDENCY_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'build'",
+        "orjson==3.12.9: no matching distribution (latest available 3.10.15)",
+        "numpy==2.3.1: requires Python >=3.11, runner has 3.10",
+        "[09:14:31] ERROR: Could not find a version that satisfies the requirement numpy==2.3.1 (from versions: 1.26.4, 2.0.2, 2.1.3, 2.2.6)",
+        "Dependency manifest changed in the latest commit"
+      ],
+      "likely_cause": "The latest commit changed dependency pins to versions that cannot be installed on the runner (unavailable or Python-incompatible).",
+      "next_step": "Compare the manifest diff against the last green commit and check each failing pin on the package index.",
+      "verification_checklist": [
+        "Pinned version exists on the package index for the runner's Python version",
+        "Lock file regenerated and committed; clean install succeeds from an empty cache",
+        "Build stage and full test suite pass with the new pin",
+        "Changelog of the dependency checked for breaking changes"
+      ],
+      "reasoning": [
+        "State: last green commit = a1b9e44, parent commit = a1b9e44 (parent green: True)",
+        "State: last healthy deployed version = None",
+        "State: runs observed for this pipeline = 3",
+        "Rule: first failing stage is build AND model shows dependency errors -> dependency failure"
+      ],
+      "confidence": 0.9,
+      "details": {
+        "last_green_commit": "a1b9e44",
+        "last_healthy_version": null,
+        "flaky_tests": {}
+      },
+      "category_label": "Build failure (dependency / version unavailable or incompatible)"
+    },
+    "Goal-Based": {
+      "agent": "Goal-Based",
+      "mechanism": "Uniform-cost search for an action plan that reaches the goal (cause confirmed + fix path)",
+      "failure_category": "DEPENDENCY_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'build'",
+        "orjson==3.12.9: no matching distribution (latest available 3.10.15)",
+        "numpy==2.3.1: requires Python >=3.11, runner has 3.10",
+        "[09:14:31] ERROR: Could not find a version that satisfies the requirement numpy==2.3.1 (from versions: 1.26.4, 2.0.2, 2.1.3, 2.2.6)",
+        "Dependency manifest changed in the latest commit"
+      ],
+      "likely_cause": "Dependency pins changed in the latest commit request versions that cannot be installed on the runner.",
+      "next_step": "Check the package index for the requested versions and runner Python compatibility",
+      "verification_checklist": [
+        "Pinned version exists on the package index for the runner's Python version",
+        "Lock file regenerated and committed; clean install succeeds from an empty cache",
+        "Build stage and full test suite pass with the new pin",
+        "Changelog of the dependency checked for breaking changes"
+      ],
+      "reasoning": [
+        "Initial facts: ['dependency_resolution_error', 'deps_changed']",
+        "Goal: ['fix_path_identified', 'root_cause_confirmed']",
+        "Search expanded 3 states",
+        "Plan step 1: Check the package index for the requested versions and runner Python compatibility (cost 5 min) -> adds ['version_problem_confirmed']",
+        "Plan step 2: Identify the commit that changed the dependency pins (cost 3 min) -> adds ['root_cause_confirmed']",
+        "Plan step 3: Propose pinning to the newest available compatible versions (owner applies) (cost 5 min) -> adds ['fix_path_identified']",
+        "Plan reaches goal with total estimated cost 13 min; category confirmed by plan: DEPENDENCY_FAILURE"
+      ],
+      "confidence": 0.8,
+      "details": {
+        "plan": [
+          "Check the package index for the requested versions and runner Python compatibility",
+          "Identify the commit that changed the dependency pins",
+          "Propose pinning to the newest available compatible versions (owner applies)"
+        ],
+        "plan_cost_min": 13,
+        "facts": [
+          "dependency_resolution_error",
+          "deps_changed"
+        ]
+      },
+      "category_label": "Build failure (dependency / version unavailable or incompatible)"
+    },
+    "Utility-Based": {
+      "agent": "Utility-Based",
+      "mechanism": "Maximise expected utility = benefit x P(cause) x value - cost - risk",
+      "failure_category": "DEPENDENCY_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'build'",
+        "orjson==3.12.9: no matching distribution (latest available 3.10.15)",
+        "numpy==2.3.1: requires Python >=3.11, runner has 3.10",
+        "[09:14:31] ERROR: Could not find a version that satisfies the requirement numpy==2.3.1 (from versions: 1.26.4, 2.0.2, 2.1.3, 2.2.6)",
+        "Dependency manifest changed in the latest commit"
+      ],
+      "likely_cause": "Most probable: an unavailable / Python-incompatible dependency pin. (p=0.75)",
+      "next_step": "Verify requested package versions on the index and runner Python compatibility",
+      "verification_checklist": [
+        "Pinned version exists on the package index for the runner's Python version",
+        "Lock file regenerated and committed; clean install succeeds from an empty cache",
+        "Build stage and full test suite pass with the new pin",
+        "Changelog of the dependency checked for breaking changes"
+      ],
+      "reasoning": [
+        "Active evidence features: ['only_docs_changed', 'dependency_resolution_error', 'deps_changed', 'build_failed']",
+        "Belief P(cause|evidence): DEPENDENCY_FAILURE=0.75, FLAKY_TEST_OR_CI_INFRA=0.15, DEPLOYMENT_HEALTH_FAILURE=0.07, TEST_FAILURE=0.03",
+        "EU(Verify requested package versions on the index and runner Py...) = 67.2",
+        "EU(Recommend reverting the latest commit (owner decides)...) = 26.9",
+        "EU(Collect full untruncated logs and escalate to the pipeline o...) = 14.0",
+        "Chosen action maximises EU (67.2); most probable cause DEPENDENCY_FAILURE (p=0.75)"
+      ],
+      "confidence": 0.75,
+      "details": {
+        "beliefs": {
+          "TEST_FAILURE": 0.031,
+          "DEPENDENCY_FAILURE": 0.75,
+          "DEPLOYMENT_HEALTH_FAILURE": 0.068,
+          "FLAKY_TEST_OR_CI_INFRA": 0.151
+        },
+        "utility_table": [
+          {
+            "action": "Verify requested package versions on the index and runner Python compatibility",
+            "expected_value": 0.712,
+            "cost_min": 5,
+            "risk": 0.0,
+            "expected_utility": 67.2
+          },
+          {
+            "action": "Recommend reverting the latest commit (owner decides)",
+            "expected_value": 0.499,
+            "cost_min": 10,
+            "risk": 0.25,
+            "expected_utility": 26.9
+          },
+          {
+            "action": "Collect full untruncated logs and escalate to the pipeline owner",
+            "expected_value": 0.3,
+            "cost_min": 20,
+            "risk": 0.0,
+            "expected_utility": 14.0
+          },
+          {
+            "action": "Re-run failed job on a different runner and check runner/test-DB health",
+            "expected_value": 0.142,
+            "cost_min": 10,
+            "risk": 0.02,
+            "expected_utility": 5.0
+          },
+          {
+            "action": "Inspect failing health checks + startup logs and diff runtime config vs previous release",
+            "expected_value": 0.061,
+            "cost_min": 10,
+            "risk": 0.0,
+            "expected_utility": -1.9
+          },
+          {
+            "action": "Reproduce failing tests locally against the latest diff",
+            "expected_value": 0.073,
+            "cost_min": 15,
+            "risk": 0.0,
+            "expected_utility": -4.7
+          },
+          {
+            "action": "Recommend immediate production rollback to the release owner",
+            "expected_value": 0.054,
+            "cost_min": 5,
+            "risk": 0.35,
+            "expected_utility": -19.6
+          }
+        ]
+      },
+      "category_label": "Build failure (dependency / version unavailable or incompatible)"
+    },
+    "Learning": {
+      "agent": "Learning",
+      "mechanism": "Experience-driven: signature->category counts and action success/failure rates, updated by feedback",
+      "failure_category": "DEPENDENCY_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'build'",
+        "orjson==3.12.9: no matching distribution (latest available 3.10.15)",
+        "numpy==2.3.1: requires Python >=3.11, runner has 3.10",
+        "[09:14:31] ERROR: Could not find a version that satisfies the requirement numpy==2.3.1 (from versions: 1.26.4, 2.0.2, 2.1.3, 2.2.6)",
+        "Dependency manifest changed in the latest commit"
+      ],
+      "likely_cause": "Past failures with this signature were dependency/version problems.",
+      "next_step": "Check the package index for the pinned versions and runner Python compatibility",
+      "verification_checklist": [
+        "Pinned version exists on the package index for the runner's Python version",
+        "Lock file regenerated and committed; clean install succeeds from an empty cache",
+        "Build stage and full test suite pass with the new pin",
+        "Changelog of the dependency checked for breaking changes"
+      ],
+      "reasoning": [
+        "Failure signature: 'build|dependency_resolution_error'",
+        "Experience for this signature (confirmed categories): {'DEPENDENCY_FAILURE': 7, 'FLAKY_TEST_OR_CI_INFRA': 1}",
+        "Laplace-smoothed P(category|signature): DEPENDENCY_FAILURE=0.67, FLAKY_TEST_OR_CI_INFRA=0.17, TEST_FAILURE=0.08, DEPLOYMENT_HEALTH_FAILURE=0.08",
+        "Action success rates for DEPENDENCY_FAILURE ((s+1)/(s+f+2)):",
+        "  Check the package index for the pinned versions and runner Python compatibility: 6 success / 1 failure -> 0.778",
+        "  Pin back to the last versions used by the green build: 3 success / 1 failure -> 0.667",
+        "  Clear the CI dependency cache and re-run: 1 success / 4 failure -> 0.286",
+        "Chosen: 'Check the package index for the pinned versions and runner Python compatibility' because it has the highest learned success rate.",
+        "Feedback recorded in the UI updates these counts and can change future decisions."
+      ],
+      "confidence": 0.67,
+      "details": {
+        "signature": "build|dependency_resolution_error",
+        "signature_counts": {
+          "DEPENDENCY_FAILURE": 7,
+          "FLAKY_TEST_OR_CI_INFRA": 1
+        },
+        "action_stats": [
+          {
+            "action": "Check the package index for the pinned versions and runner Python compatibility",
+            "success": 6,
+            "failure": 1,
+            "success_rate": 0.778
+          },
+          {
+            "action": "Pin back to the last versions used by the green build",
+            "success": 3,
+            "failure": 1,
+            "success_rate": 0.667
+          },
+          {
+            "action": "Clear the CI dependency cache and re-run",
+            "success": 1,
+            "failure": 4,
+            "success_rate": 0.286
+          }
+        ],
+        "exploratory": false,
+        "episodes_so_far": 0
+      },
+      "category_label": "Build failure (dependency / version unavailable or incompatible)"
+    },
+    "LLM (Ollama + tools)": {
+      "agent": "LLM (Ollama + tools)",
+      "mechanism": "Local LLM via LangChain; investigates by tool calling; grounded, verified JSON answer",
+      "failure_category": "DEPENDENCY_FAILURE",
+      "evidence": [
+        "[read_build_logs] ERROR: Ignored the following versions that require a different python version: 2.3.0 Requires-Python >=3.11; 2.3.1 Requires-Python >=3.11  (verified)",
+        "[read_build_logs] ERROR: Could not find a version that satisfies the requirement numpy==2.3.1 (from versions: 1.26.4, 2.0.2, 2.1.3, 2.2.6)  (verified)",
+        "[read_build_logs] ERROR: Could not find a version that satisfies the requirement orjson==3.12.9 (from versions: 3.10.7, 3.10.12, 3.10.15)  (verified)",
+        "[read_build_logs] ERROR: No matching distribution found for orjson==3.12.9  (verified)"
+      ],
+      "likely_cause": "The build failed due to dependency resolution errors, specifically for numpy and orjson, which require Python versions higher than the currently detected Python 3.10.14.",
+      "next_step": "Check the requirements.txt file for the specified versions of numpy and orjson, and ensure they are compatible with the Python version being used (3.10.14).",
+      "verification_checklist": [
+        "Verify that the versions of numpy and orjson in requirements.txt are compatible with Python 3.10.14.",
+        "Update the Python version in the CI configuration if necessary to meet the requirements of the dependencies."
+      ],
+      "reasoning": [
+        "Step 1: called get_pipeline_status()",
+        "Step 2: called read_build_logs({'max_lines': 50})",
+        "Step 3: model produced final answer",
+        "Tools used (2 distinct): get_pipeline_status, read_build_logs",
+        "Grounding check: 4/4 evidence quotes found in tool outputs",
+        "Model reasoning: The build logs indicate that the dependencies numpy and orjson could not be satisfied with the current Python version (3.10.14). This suggests a version mismatch between the dependencies and the Python version being used, leading to the build failure."
+      ],
+      "confidence": 0.95,
+      "details": {
+        "model": "qwen3:8b",
+        "tool_calls": [
+          {
+            "step": 1,
+            "tool": "get_pipeline_status",
+            "args": {},
+            "output": "{\n \"pipeline\": \"shop-api / main\",\n \"run_id\": 4820,\n \"branch\": \"main\",\n \"commit\": \"c3e77a0\",\n \"parent_commit\": \"a1b9e44\",\n \"trigger\": \"push\",\n \"overall\": \"failed\",\n \"failed_stage\": \"build\",\n \"stages\": [\n  {\n   \"name\": \"checkout\",\n   \"status\": \"success\",\n   \"duration_s\": 4\n  },\n  {\n   \"name\": \"build\",\n   \"status\": \"failed\",\n   \"duration_s\": 37\n  },\n  {\n   \"name\": \"unit_test\",\n   \"status\": \"skipped\",\n   \"duration_s\": 0\n  },\n  {\n   \"name\": \"package\",\n   \"status\": \"skipped\",\n   \"duration_s\": 0\n  },\n  {\n   \"name\": \"deploy_canary\",\n   \"status\": \"skipped\",\n   \"duration_s\": 0\n  },\n  {\n   \"name\": \"health_check\",\n   \"status\": \"skipped\",\n   \"duration_s\": 0\n  }\n ]\n}"
+          },
+          {
+            "step": 2,
+            "tool": "read_build_logs",
+            "args": {
+              "max_lines": 50
+            },
+            "output": "{\n \"run_id\": 4820,\n \"line_count\": 8,\n \"truncated_by_tool\": false,\n \"lines\": [\n  \"[09:14:01] Checking out commit c3e77a0 (main)\",\n  \"[09:14:05] Python 3.10.14 detected on runner ci-runner-03\",\n  \"[09:14:05] Installing dependencies from requirements.txt\",\n  \"[09:14:31] ERROR: Ignored the following versions that require a different python version: 2.3.0 Requires-Python >=3.11; 2.3.1 Requires-Python >=3.11\",\n  \"[09:14:31] ERROR: Could not find a version that satisfies the requirement numpy==2.3.1 (from versions: 1.26.4, 2.0.2, 2.1.3, 2.2.6)\",\n  \"[09:14:32] ERROR: Could not find a version that satisfies the requirement orjson==3.12.9 (from versions: 3.10.7, 3.10.12, 3.10.15)\",\n  \"[09:14:32] ERROR: No matching distribution found for orjson==3.12.9\",\n  \"[09:14:38] ERROR: Stage build failed with exit code 1\"\n ]\n}"
+          }
+        ],
+        "distinct_tools": [
+          "get_pipeline_status",
+          "read_build_logs"
+        ],
+        "grounding_score": 1.0,
+        "evidence_check": [
+          {
+            "tool": "read_build_logs",
+            "quote": "ERROR: Ignored the following versions that require a different python version: 2.3.0 Requires-Python >=3.11; 2.3.1 Requires-Python >=3.11",
+            "verified": true,
+            "tool_was_called": true
+          },
+          {
+            "tool": "read_build_logs",
+            "quote": "ERROR: Could not find a version that satisfies the requirement numpy==2.3.1 (from versions: 1.26.4, 2.0.2, 2.1.3, 2.2.6)",
+            "verified": true,
+            "tool_was_called": true
+          },
+          {
+            "tool": "read_build_logs",
+            "quote": "ERROR: Could not find a version that satisfies the requirement orjson==3.12.9 (from versions: 3.10.7, 3.10.12, 3.10.15)",
+            "verified": true,
+            "tool_was_called": true
+          },
+          {
+            "tool": "read_build_logs",
+            "quote": "ERROR: No matching distribution found for orjson==3.12.9",
+            "verified": true,
+            "tool_was_called": true
+          }
+        ],
+        "raw_response": "{\n  \"failure_category\": \"DEPENDENCY_FAILURE\",\n  \"evidence\": [\n    {\"tool\": \"read_build_logs\", \"quote\": \"ERROR: Ignored the following versions that require a different python version: 2.3.0 Requires-Python >=3.11; 2.3.1 Requires-Python >=3.11\"},\n    {\"tool\": \"read_build_logs\", \"quote\": \"ERROR: Could not find a version that satisfies the requirement numpy==2.3.1 (from versions: 1.26.4, 2.0.2, 2.1.3, 2.2.6)\"},\n    {\"tool\": \"read_build_logs\", \"quote\": \"ERROR: Could not find a version that satisfies the requirement orjson==3.12.9 (from versions: 3.10.7, 3.10.12, 3.10.15)\"},\n    {\"tool\": \"read_build_logs\", \"quote\": \"ERROR: No matching distribution found for orjson==3.12.9\"}\n  ],\n  \"likely_cause\": \"The build failed due to dependency resolution errors, specifically for numpy and orjson, which require Python versions higher than the currently detected Python 3.10.14.\",\n  \"next_step\": \"Check the requirements.txt file for the specified versions of numpy and orjson, and ensure they are compatible with the Python version being used (3.10.14).\",\n  \"verification_checklist\": [\n    \"Verify that the versions of numpy and orjson in requirements.txt are compatible with Python 3.10.14.\",\n    \"Update the Python version in the CI configuration if necessary to meet the requirements of the dependencies.\"\n  ],\n  \"confidence\": 0.95,\n  \"reasoning\": \"The build logs indicate that the dependencies numpy and orjson could not be satisfied with the current Python version (3.10.14). This suggests a version mismatch between the dependencies and the Python version being used, leading to the build failure.\"\n}",
+        "elapsed_s": 68.6
+      },
+      "category_label": "Build failure (dependency / version unavailable or incompatible)"
+    }
+  },
+  "C": {
+    "Simple Reflex": {
+      "agent": "Simple Reflex",
+      "mechanism": "Ordered condition-action rules on the current percept (no memory)",
+      "failure_category": "DEPLOYMENT_HEALTH_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'health_check'",
+        "readiness /ready: 503 on 2/2 canary pods",
+        "smoke test POST /checkout: 500 Internal Server Error",
+        "Error rate 34.2% after release",
+        "[15:34:12] pod shop-api-7f9c-x2k: app log: KeyError: 'PAYMENT_GATEWAY_URL' in shop_api/settings.py line 42",
+        "Application now reads PAYMENT_GATEWAY_URL; production manifest still defines PAYMENT_API_URL"
+      ],
+      "likely_cause": "The new release is unhealthy in the target environment.",
+      "next_step": "Inspect the failing health-check endpoints and application startup logs.",
+      "verification_checklist": [
+        "Readiness and liveness health checks return 200 on all canary pods",
+        "Error rate and p95 latency back within baseline for 15+ minutes",
+        "Required configuration / environment variables present in the target environment",
+        "Rollout resumed (or rolled back) by the release owner and smoke tests pass"
+      ],
+      "reasoning": [
+        "R1: dependency error text in log -> no match",
+        "R2: test stage failed -> no match",
+        "R3: health check failed -> MATCH",
+        "First matching rule fires; remaining rules are not evaluated."
+      ],
+      "confidence": 0.6,
+      "details": {
+        "fired_rule": "R3: health check failed"
+      },
+      "category_label": "Deployment health-check failure after release"
+    },
+    "Model-Based Reflex": {
+      "agent": "Model-Based Reflex",
+      "mechanism": "Rules over an internal pipeline state updated from history + current percept",
+      "failure_category": "DEPLOYMENT_HEALTH_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'health_check'",
+        "readiness /ready: 503 on 2/2 canary pods",
+        "smoke test POST /checkout: 500 Internal Server Error",
+        "Error rate 34.2% after release",
+        "[15:34:12] pod shop-api-7f9c-x2k: app log: KeyError: 'PAYMENT_GATEWAY_URL' in shop_api/settings.py line 42",
+        "Application now reads PAYMENT_GATEWAY_URL; production manifest still defines PAYMENT_API_URL"
+      ],
+      "likely_cause": "The new release fails in the target environment while the previous version (2.7.1) was healthy - likely an environment/config mismatch.",
+      "next_step": "Compare runtime configuration between the healthy and failing versions; keep rollout paused and inform the release owner.",
+      "verification_checklist": [
+        "Readiness and liveness health checks return 200 on all canary pods",
+        "Error rate and p95 latency back within baseline for 15+ minutes",
+        "Required configuration / environment variables present in the target environment",
+        "Rollout resumed (or rolled back) by the release owner and smoke tests pass"
+      ],
+      "reasoning": [
+        "State: last green commit = c9a0b37, parent commit = c9a0b37 (parent green: True)",
+        "State: last healthy deployed version = 2.7.1",
+        "State: runs observed for this pipeline = 3",
+        "Rule: all pre-deploy stages green, health check failed, previous version was healthy -> release/config problem"
+      ],
+      "confidence": 0.85,
+      "details": {
+        "last_green_commit": "c9a0b37",
+        "last_healthy_version": "2.7.1",
+        "flaky_tests": {}
+      },
+      "category_label": "Deployment health-check failure after release"
+    },
+    "Goal-Based": {
+      "agent": "Goal-Based",
+      "mechanism": "Uniform-cost search for an action plan that reaches the goal (cause confirmed + fix path)",
+      "failure_category": "DEPLOYMENT_HEALTH_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'health_check'",
+        "readiness /ready: 503 on 2/2 canary pods",
+        "smoke test POST /checkout: 500 Internal Server Error",
+        "Error rate 34.2% after release",
+        "[15:34:12] pod shop-api-7f9c-x2k: app log: KeyError: 'PAYMENT_GATEWAY_URL' in shop_api/settings.py line 42",
+        "Application now reads PAYMENT_GATEWAY_URL; production manifest still defines PAYMENT_API_URL"
+      ],
+      "likely_cause": "The release depends on configuration that is missing or renamed in the target environment.",
+      "next_step": "Inspect failing health-check endpoints and application startup logs",
+      "verification_checklist": [
+        "Readiness and liveness health checks return 200 on all canary pods",
+        "Error rate and p95 latency back within baseline for 15+ minutes",
+        "Required configuration / environment variables present in the target environment",
+        "Rollout resumed (or rolled back) by the release owner and smoke tests pass"
+      ],
+      "reasoning": [
+        "Initial facts: ['config_changed', 'health_check_failed']",
+        "Goal: ['fix_path_identified', 'root_cause_confirmed']",
+        "Search expanded 3 states",
+        "Plan step 1: Inspect failing health-check endpoints and application startup logs (cost 5 min) -> adds ['failing_component_identified']",
+        "Plan step 2: Compare runtime configuration / env vars between the healthy and new release (cost 10 min) -> adds ['root_cause_confirmed']",
+        "Plan step 3: Ask the release owner to keep rollout paused or roll back, and correct the config (cost 5 min) -> adds ['fix_path_identified']",
+        "Plan reaches goal with total estimated cost 20 min; category confirmed by plan: DEPLOYMENT_HEALTH_FAILURE"
+      ],
+      "confidence": 0.8,
+      "details": {
+        "plan": [
+          "Inspect failing health-check endpoints and application startup logs",
+          "Compare runtime configuration / env vars between the healthy and new release",
+          "Ask the release owner to keep rollout paused or roll back, and correct the config"
+        ],
+        "plan_cost_min": 20,
+        "facts": [
+          "config_changed",
+          "health_check_failed"
+        ]
+      },
+      "category_label": "Deployment health-check failure after release"
+    },
+    "Utility-Based": {
+      "agent": "Utility-Based",
+      "mechanism": "Maximise expected utility = benefit x P(cause) x value - cost - risk",
+      "failure_category": "DEPLOYMENT_HEALTH_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'health_check'",
+        "readiness /ready: 503 on 2/2 canary pods",
+        "smoke test POST /checkout: 500 Internal Server Error",
+        "Error rate 34.2% after release",
+        "[15:34:12] pod shop-api-7f9c-x2k: app log: KeyError: 'PAYMENT_GATEWAY_URL' in shop_api/settings.py line 42",
+        "Application now reads PAYMENT_GATEWAY_URL; production manifest still defines PAYMENT_API_URL"
+      ],
+      "likely_cause": "Most probable: the release is misconfigured for the target environment. (p=0.79)",
+      "next_step": "Inspect failing health checks + startup logs and diff runtime config vs previous release",
+      "verification_checklist": [
+        "Readiness and liveness health checks return 200 on all canary pods",
+        "Error rate and p95 latency back within baseline for 15+ minutes",
+        "Required configuration / environment variables present in the target environment",
+        "Rollout resumed (or rolled back) by the release owner and smoke tests pass"
+      ],
+      "reasoning": [
+        "Active evidence features: ['health_failed', 'error_rate_spike', 'config_changed']",
+        "Belief P(cause|evidence): DEPLOYMENT_HEALTH_FAILURE=0.79, TEST_FAILURE=0.07, DEPENDENCY_FAILURE=0.07, FLAKY_TEST_OR_CI_INFRA=0.07",
+        "EU(Inspect failing health checks + startup logs and diff runtim...) = 62.7",
+        "EU(Recommend immediate production rollback to the release owner...) = 37.9",
+        "EU(Recommend reverting the latest commit (owner decides)...) = 17.7",
+        "Chosen action maximises EU (62.7); most probable cause DEPLOYMENT_HEALTH_FAILURE (p=0.79)"
+      ],
+      "confidence": 0.79,
+      "details": {
+        "beliefs": {
+          "TEST_FAILURE": 0.071,
+          "DEPENDENCY_FAILURE": 0.071,
+          "DEPLOYMENT_HEALTH_FAILURE": 0.786,
+          "FLAKY_TEST_OR_CI_INFRA": 0.071
+        },
+        "utility_table": [
+          {
+            "action": "Inspect failing health checks + startup logs and diff runtime config vs previous release",
+            "expected_value": 0.707,
+            "cost_min": 10,
+            "risk": 0.0,
+            "expected_utility": 62.7
+          },
+          {
+            "action": "Recommend immediate production rollback to the release owner",
+            "expected_value": 0.629,
+            "cost_min": 5,
+            "risk": 0.35,
+            "expected_utility": 37.9
+          },
+          {
+            "action": "Recommend reverting the latest commit (owner decides)",
+            "expected_value": 0.407,
+            "cost_min": 10,
+            "risk": 0.25,
+            "expected_utility": 17.7
+          },
+          {
+            "action": "Collect full untruncated logs and escalate to the pipeline owner",
+            "expected_value": 0.3,
+            "cost_min": 20,
+            "risk": 0.0,
+            "expected_utility": 14.0
+          },
+          {
+            "action": "Verify requested package versions on the index and runner Python compatibility",
+            "expected_value": 0.068,
+            "cost_min": 5,
+            "risk": 0.0,
+            "expected_utility": 2.8
+          },
+          {
+            "action": "Re-run failed job on a different runner and check runner/test-DB health",
+            "expected_value": 0.078,
+            "cost_min": 10,
+            "risk": 0.02,
+            "expected_utility": -1.4
+          },
+          {
+            "action": "Reproduce failing tests locally against the latest diff",
+            "expected_value": 0.086,
+            "cost_min": 15,
+            "risk": 0.0,
+            "expected_utility": -3.4
+          }
+        ]
+      },
+      "category_label": "Deployment health-check failure after release"
+    },
+    "Learning": {
+      "agent": "Learning",
+      "mechanism": "Experience-driven: signature->category counts and action success/failure rates, updated by feedback",
+      "failure_category": "DEPLOYMENT_HEALTH_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'health_check'",
+        "readiness /ready: 503 on 2/2 canary pods",
+        "smoke test POST /checkout: 500 Internal Server Error",
+        "Error rate 34.2% after release",
+        "[15:34:12] pod shop-api-7f9c-x2k: app log: KeyError: 'PAYMENT_GATEWAY_URL' in shop_api/settings.py line 42",
+        "Application now reads PAYMENT_GATEWAY_URL; production manifest still defines PAYMENT_API_URL"
+      ],
+      "likely_cause": "Past failures with this signature were release configuration problems.",
+      "next_step": "Diff runtime configuration/env vars between healthy and failing release",
+      "verification_checklist": [
+        "Readiness and liveness health checks return 200 on all canary pods",
+        "Error rate and p95 latency back within baseline for 15+ minutes",
+        "Required configuration / environment variables present in the target environment",
+        "Rollout resumed (or rolled back) by the release owner and smoke tests pass"
+      ],
+      "reasoning": [
+        "Failure signature: 'health_check|missing_config'",
+        "Experience for this signature (confirmed categories): {'DEPLOYMENT_HEALTH_FAILURE': 4}",
+        "Laplace-smoothed P(category|signature): DEPLOYMENT_HEALTH_FAILURE=0.62, TEST_FAILURE=0.12, DEPENDENCY_FAILURE=0.12, FLAKY_TEST_OR_CI_INFRA=0.12",
+        "Action success rates for DEPLOYMENT_HEALTH_FAILURE ((s+1)/(s+f+2)):",
+        "  Diff runtime configuration/env vars between healthy and failing release: 5 success / 1 failure -> 0.75",
+        "  Recommend rollback to the release owner: 3 success / 1 failure -> 0.667",
+        "  Restart the failing pods: 0 success / 4 failure -> 0.167",
+        "Chosen: 'Diff runtime configuration/env vars between healthy and failing release' because it has the highest learned success rate.",
+        "Feedback recorded in the UI updates these counts and can change future decisions."
+      ],
+      "confidence": 0.62,
+      "details": {
+        "signature": "health_check|missing_config",
+        "signature_counts": {
+          "DEPLOYMENT_HEALTH_FAILURE": 4
+        },
+        "action_stats": [
+          {
+            "action": "Diff runtime configuration/env vars between healthy and failing release",
+            "success": 5,
+            "failure": 1,
+            "success_rate": 0.75
+          },
+          {
+            "action": "Recommend rollback to the release owner",
+            "success": 3,
+            "failure": 1,
+            "success_rate": 0.667
+          },
+          {
+            "action": "Restart the failing pods",
+            "success": 0,
+            "failure": 4,
+            "success_rate": 0.167
+          }
+        ],
+        "exploratory": false,
+        "episodes_so_far": 0
+      },
+      "category_label": "Deployment health-check failure after release"
+    },
+    "LLM (Ollama + tools)": {
+      "agent": "LLM (Ollama + tools)",
+      "mechanism": "Local LLM via LangChain; investigates by tool calling; grounded, verified JSON answer",
+      "failure_category": "DEPLOYMENT_HEALTH_FAILURE",
+      "evidence": [
+        "[get_deployment_health] smoke test POST /checkout, status: failing, detail: 500 Internal Server Error  (verified)",
+        "[get_deployment_health] error_rate_pct: 34.2, baseline_error_rate_pct: 0.4  (verified)",
+        "[get_deployment_health] config_changes: Application now reads PAYMENT_GATEWAY_URL; production manifest still defines PAYMENT_API_URL  (verified)"
+      ],
+      "likely_cause": "The deployment of version 2.8.0 has caused a 500 Internal Server Error in the smoke test, likely due to a misconfiguration or incompatibility with the existing environment, as the error rate has increased significantly from the baseline.",
+      "next_step": "Investigate the specific error in the smoke test and check the configuration changes for any misalignment between the new environment variables and the existing setup.",
+      "verification_checklist": [
+        "Verify the PAYMENT_GATEWAY_URL configuration in the production environment.",
+        "Check the logs for the failing canary pods to identify the root cause of the 500 error.",
+        "Ensure that the new version is compatible with the existing infrastructure and environment variables."
+      ],
+      "reasoning": [
+        "Step 1: called get_pipeline_status()",
+        "Step 2: called get_deployment_health()",
+        "Step 3: model produced final answer",
+        "Tools used (2 distinct): get_deployment_health, get_pipeline_status",
+        "Grounding check: 3/3 evidence quotes found in tool outputs",
+        "Model reasoning: The health check failure and the significant increase in error rate indicate a problem with the deployment of version 2.8.0. The misconfiguration in the environment variables is likely the cause, as it is a common source of such errors."
+      ],
+      "confidence": 0.9,
+      "details": {
+        "model": "qwen3:8b",
+        "tool_calls": [
+          {
+            "step": 1,
+            "tool": "get_pipeline_status",
+            "args": {},
+            "output": "{\n \"pipeline\": \"shop-api / main\",\n \"run_id\": 4831,\n \"branch\": \"main\",\n \"commit\": \"e5d2f19\",\n \"parent_commit\": \"c9a0b37\",\n \"trigger\": \"tag v2.8.0\",\n \"overall\": \"failed\",\n \"failed_stage\": \"health_check\",\n \"stages\": [\n  {\n   \"name\": \"checkout\",\n   \"status\": \"success\",\n   \"duration_s\": 4\n  },\n  {\n   \"name\": \"build\",\n   \"status\": \"success\",\n   \"duration_s\": 64\n  },\n  {\n   \"name\": \"unit_test\",\n   \"status\": \"success\",\n   \"duration_s\": 51\n  },\n  {\n   \"name\": \"package\",\n   \"status\": \"success\",\n   \"duration_s\": 22\n  },\n  {\n   \"name\": \"deploy_canary\",\n   \"status\": \"success\",\n   \"duration_s\": 95\n  },\n  {\n   \"name\": \"health_check\",\n   \"status\": \"failed\",\n   \"duration_s\": 300\n  }\n ]\n}"
+          },
+          {
+            "step": 2,
+            "tool": "get_deployment_health",
+            "args": {},
+            "output": "{\n \"executed\": true,\n \"environment\": \"production\",\n \"previous_version\": \"2.7.1\",\n \"new_version\": \"2.8.0\",\n \"rollout\": \"canary 10% - paused\",\n \"health_checks\": [\n  {\n   \"name\": \"liveness /healthz\",\n   \"status\": \"passing\",\n   \"detail\": \"200 OK\"\n  },\n  {\n   \"name\": \"readiness /ready\",\n   \"status\": \"failing\",\n   \"detail\": \"503 on 2/2 canary pods\"\n  },\n  {\n   \"name\": \"smoke test POST /checkout\",\n   \"status\": \"failing\",\n   \"detail\": \"500 Internal Server Error\"\n  }\n ],\n \"error_rate_pct\": 34.2,\n \"baseline_error_rate_pct\": 0.4,\n \"p95_latency_ms\": 2900,\n \"baseline_p95_latency_ms\": 180,\n \"config_changes\": [\n  \"Application now reads PAYMENT_GATEWAY_URL; production manifest still defines PAYMENT_API_URL\"\n ]\n}"
+          }
+        ],
+        "distinct_tools": [
+          "get_deployment_health",
+          "get_pipeline_status"
+        ],
+        "grounding_score": 1.0,
+        "evidence_check": [
+          {
+            "tool": "get_deployment_health",
+            "quote": "smoke test POST /checkout, status: failing, detail: 500 Internal Server Error",
+            "verified": true,
+            "tool_was_called": true
+          },
+          {
+            "tool": "get_deployment_health",
+            "quote": "error_rate_pct: 34.2, baseline_error_rate_pct: 0.4",
+            "verified": true,
+            "tool_was_called": true
+          },
+          {
+            "tool": "get_deployment_health",
+            "quote": "config_changes: Application now reads PAYMENT_GATEWAY_URL; production manifest still defines PAYMENT_API_URL",
+            "verified": true,
+            "tool_was_called": true
+          }
+        ],
+        "raw_response": "{\n  \"failure_category\": \"DEPLOYMENT_HEALTH_FAILURE\",\n  \"evidence\": [\n    {\"tool\": \"get_deployment_health\", \"quote\": \"smoke test POST /checkout, status: failing, detail: 500 Internal Server Error\"},\n    {\"tool\": \"get_deployment_health\", \"quote\": \"error_rate_pct: 34.2, baseline_error_rate_pct: 0.4\"},\n    {\"tool\": \"get_deployment_health\", \"quote\": \"config_changes: Application now reads PAYMENT_GATEWAY_URL; production manifest still defines PAYMENT_API_URL\"}\n  ],\n  \"likely_cause\": \"The deployment of version 2.8.0 has caused a 500 Internal Server Error in the smoke test, likely due to a misconfiguration or incompatibility with the existing environment, as the error rate has increased significantly from the baseline.\",\n  \"next_step\": \"Investigate the specific error in the smoke test and check the configuration changes for any misalignment between the new environment variables and the existing setup.\",\n  \"verification_checklist\": [\n    \"Verify the PAYMENT_GATEWAY_URL configuration in the production environment.\",\n    \"Check the logs for the failing canary pods to identify the root cause of the 500 error.\",\n    \"Ensure that the new version is compatible with the existing infrastructure and environment variables.\"\n  ],\n  \"confidence\": 0.9,\n  \"reasoning\": \"The health check failure and the significant increase in error rate indicate a problem with the deployment of version 2.8.0. The misconfiguration in the environment variables is likely the cause, as it is a common source of such errors.\"\n}",
+        "elapsed_s": 54.8
+      },
+      "category_label": "Deployment health-check failure after release"
+    }
+  },
+  "D": {
+    "Simple Reflex": {
+      "agent": "Simple Reflex",
+      "mechanism": "Ordered condition-action rules on the current percept (no memory)",
+      "failure_category": "TEST_FAILURE",
+      "evidence": [
+        "Pipeline failed at stage 'unit_test'",
+        "Failing test: tests/integration/test_order_sync.py::test_sync_orders_to_warehouse"
+      ],
+      "likely_cause": "Recent code change broke one or more tests.",
+      "next_step": "Open the failing test output and compare it with the latest code change.",
+      "verification_checklist": [
+        "Failing tests pass locally on the fixed commit",
+        "Full unit-test suite passes in CI (no new failures)",
+        "A regression test covers the corrected behaviour",
+        "Code review approved for the fix commit"
+      ],
+      "reasoning": [
+        "R1: dependency error text in log -> no match",
+        "R2: test stage failed -> MATCH",
+        "First matching rule fires; remaining rules are not evaluated."
+      ],
+      "confidence": 0.6,
+      "details": {
+        "fired_rule": "R2: test stage failed"
+      },
+      "category_label": "Unit/integration test failure (code regression)"
+    },
+    "Model-Based Reflex": {
+      "agent": "Model-Based Reflex",
+      "mechanism": "Rules over an internal pipeline state updated from history + current percept",
+      "failure_category": "FLAKY_TEST_OR_CI_INFRA",
+      "evidence": [
+        "Pipeline failed at stage 'unit_test'",
+        "Failing test: tests/integration/test_order_sync.py::test_sync_orders_to_warehouse",
+        "[18:24:38] FAILED tests/integration/test_order_sync.py::test_sync_orders_to_warehouse - TimeoutError: connection to postgres-test:5432 timed out after 30s",
+        "[18:20:02] WARNING: runner ci-runner-07 disk usage at 96%",
+        "Only documentation changed: README.md",
+        "Build log is truncated - evidence is incomplete"
+      ],
+      "likely_cause": "Non-deterministic test failure (test-database connectivity / runner health), not caused by the latest commit.",
+      "next_step": "Re-run the failed job on a different runner and check the health of the test database and runner disk.",
+      "verification_checklist": [
+        "Failing job re-run on a healthy runner passes",
+        "Test passes repeatedly (e.g. 5 consecutive runs) to confirm stability",
+        "Runner / test-service health (disk, DB connectivity) back to normal",
+        "Flaky test tracked in an issue; quarantined only with owner approval"
+      ],
+      "reasoning": [
+        "State: last green commit = f81aa05, parent commit = e5d2f19 (parent green: False)",
+        "State: last healthy deployed version = None",
+        "State: runs observed for this pipeline = 6",
+        "State: test_sync_orders_to_warehouse failed 3/6 observed runs; mixed pass/fail on commits ['c9a0b37', 'e5d2f19', 'f81aa05']",
+        "Rule: failing test is flaky in the state model AND change does not touch it -> flaky/infra"
+      ],
+      "confidence": 0.8,
+      "details": {
+        "last_green_commit": "f81aa05",
+        "last_healthy_version": null,
+        "flaky_tests": {
+          "tests/integration/test_order_sync.py::test_sync_orders_to_warehouse": {
+            "fails": 3,
+            "observations": 6,
+            "mixed_on_commits": [
+              "c9a0b37",
+              "e5d2f19",
+              "f81aa05"
+            ]
+          }
+        }
+      },
+      "category_label": "Flaky test or CI infrastructure problem (non-deterministic)"
+    },
+    "Goal-Based": {
+      "agent": "Goal-Based",
+      "mechanism": "Uniform-cost search for an action plan that reaches the goal (cause confirmed + fix path)",
+      "failure_category": "FLAKY_TEST_OR_CI_INFRA",
+      "evidence": [
+        "Pipeline failed at stage 'unit_test'",
+        "Failing test: tests/integration/test_order_sync.py::test_sync_orders_to_warehouse",
+        "[18:24:38] FAILED tests/integration/test_order_sync.py::test_sync_orders_to_warehouse - TimeoutError: connection to postgres-test:5432 timed out after 30s",
+        "[18:20:02] WARNING: runner ci-runner-07 disk usage at 96%",
+        "Only documentation changed: README.md",
+        "Build log is truncated - evidence is incomplete"
+      ],
+      "likely_cause": "Timeout in an integration test on an unhealthy runner - an infrastructure problem, not the code change.",
+      "next_step": "Re-run the failed job on a different runner (no code change)",
+      "verification_checklist": [
+        "Failing job re-run on a healthy runner passes",
+        "Test passes repeatedly (e.g. 5 consecutive runs) to confirm stability",
+        "Runner / test-service health (disk, DB connectivity) back to normal",
+        "Flaky test tracked in an issue; quarantined only with owner approval"
+      ],
+      "reasoning": [
+        "Initial facts: ['infra_warning', 'tests_failed', 'timeout_error']",
+        "Goal: ['fix_path_identified', 'root_cause_confirmed']",
+        "Search expanded 3 states",
+        "Plan step 1: Re-run the failed job on a different runner (no code change) (cost 10 min) -> adds ['determinism_assessed']",
+        "Plan step 2: Check runner disk and test-database connectivity (cost 10 min) -> adds ['root_cause_confirmed']",
+        "Plan step 3: Open an infra ticket and track the flaky test (quarantine only with owner approval) (cost 5 min) -> adds ['fix_path_identified']",
+        "Plan reaches goal with total estimated cost 25 min; category confirmed by plan: FLAKY_TEST_OR_CI_INFRA"
+      ],
+      "confidence": 0.8,
+      "details": {
+        "plan": [
+          "Re-run the failed job on a different runner (no code change)",
+          "Check runner disk and test-database connectivity",
+          "Open an infra ticket and track the flaky test (quarantine only with owner approval)"
+        ],
+        "plan_cost_min": 25,
+        "facts": [
+          "infra_warning",
+          "tests_failed",
+          "timeout_error"
+        ]
+      },
+      "category_label": "Flaky test or CI infrastructure problem (non-deterministic)"
+    },
+    "Utility-Based": {
+      "agent": "Utility-Based",
+      "mechanism": "Maximise expected utility = benefit x P(cause) x value - cost - risk",
+      "failure_category": "FLAKY_TEST_OR_CI_INFRA",
+      "evidence": [
+        "Pipeline failed at stage 'unit_test'",
+        "Failing test: tests/integration/test_order_sync.py::test_sync_orders_to_warehouse",
+        "[18:24:38] FAILED tests/integration/test_order_sync.py::test_sync_orders_to_warehouse - TimeoutError: connection to postgres-test:5432 timed out after 30s",
+        "[18:20:02] WARNING: runner ci-runner-07 disk usage at 96%",
+        "Only documentation changed: README.md",
+        "Build log is truncated - evidence is incomplete"
+      ],
+      "likely_cause": "Most probable: a non-deterministic infrastructure problem (runner / test DB), not the code change. (p=0.85)",
+      "next_step": "Re-run failed job on a different runner and check runner/test-DB health",
+      "verification_checklist": [
+        "Failing job re-run on a healthy runner passes",
+        "Test passes repeatedly (e.g. 5 consecutive runs) to confirm stability",
+        "Runner / test-service health (disk, DB connectivity) back to normal",
+        "Flaky test tracked in an issue; quarantined only with owner approval"
+      ],
+      "reasoning": [
+        "Active evidence features: ['tests_failed', 'timeout_error', 'infra_warning', 'only_docs_changed', 'log_truncated']",
+        "Belief P(cause|evidence): FLAKY_TEST_OR_CI_INFRA=0.85, DEPLOYMENT_HEALTH_FAILURE=0.06, TEST_FAILURE=0.05, DEPENDENCY_FAILURE=0.04",
+        "EU(Re-run failed job on a different runner and check runner/tes...) = 68.7",
+        "EU(Reproduce failing tests locally against the latest diff...) = 18.3",
+        "EU(Collect full untruncated logs and escalate to the pipeline o...) = 14.0",
+        "Chosen action maximises EU (68.7); most probable cause FLAKY_TEST_OR_CI_INFRA (p=0.85)"
+      ],
+      "confidence": 0.85,
+      "details": {
+        "beliefs": {
+          "TEST_FAILURE": 0.052,
+          "DEPENDENCY_FAILURE": 0.038,
+          "DEPLOYMENT_HEALTH_FAILURE": 0.056,
+          "FLAKY_TEST_OR_CI_INFRA": 0.854
+        },
+        "utility_table": [
+          {
+            "action": "Re-run failed job on a different runner and check runner/test-DB health",
+            "expected_value": 0.779,
+            "cost_min": 10,
+            "risk": 0.02,
+            "expected_utility": 68.7
+          },
+          {
+            "action": "Reproduce failing tests locally against the latest diff",
+            "expected_value": 0.303,
+            "cost_min": 15,
+            "risk": 0.0,
+            "expected_utility": 18.3
+          },
+          {
+            "action": "Collect full untruncated logs and escalate to the pipeline owner",
+            "expected_value": 0.3,
+            "cost_min": 20,
+            "risk": 0.0,
+            "expected_utility": 14.0
+          },
+          {
+            "action": "Verify requested package versions on the index and runner Python compatibility",
+            "expected_value": 0.036,
+            "cost_min": 5,
+            "risk": 0.0,
+            "expected_utility": -0.4
+          },
+          {
+            "action": "Inspect failing health checks + startup logs and diff runtime config vs previous release",
+            "expected_value": 0.051,
+            "cost_min": 10,
+            "risk": 0.0,
+            "expected_utility": -2.9
+          },
+          {
+            "action": "Recommend reverting the latest commit (owner decides)",
+            "expected_value": 0.081,
+            "cost_min": 10,
+            "risk": 0.25,
+            "expected_utility": -14.9
+          },
+          {
+            "action": "Recommend immediate production rollback to the release owner",
+            "expected_value": 0.045,
+            "cost_min": 5,
+            "risk": 0.35,
+            "expected_utility": -20.5
+          }
+        ]
+      },
+      "category_label": "Flaky test or CI infrastructure problem (non-deterministic)"
+    },
+    "Learning": {
+      "agent": "Learning",
+      "mechanism": "Experience-driven: signature->category counts and action success/failure rates, updated by feedback",
+      "failure_category": "FLAKY_TEST_OR_CI_INFRA",
+      "evidence": [
+        "Pipeline failed at stage 'unit_test'",
+        "Failing test: tests/integration/test_order_sync.py::test_sync_orders_to_warehouse",
+        "[18:24:38] FAILED tests/integration/test_order_sync.py::test_sync_orders_to_warehouse - TimeoutError: connection to postgres-test:5432 timed out after 30s",
+        "[18:20:02] WARNING: runner ci-runner-07 disk usage at 96%",
+        "Only documentation changed: README.md",
+        "Build log is truncated - evidence is incomplete"
+      ],
+      "likely_cause": "Past failures with this signature were mostly flaky tests / CI infrastructure.",
+      "next_step": "Re-run the job on a different runner and check runner/test-DB health",
+      "verification_checklist": [
+        "Failing job re-run on a healthy runner passes",
+        "Test passes repeatedly (e.g. 5 consecutive runs) to confirm stability",
+        "Runner / test-service health (disk, DB connectivity) back to normal",
+        "Flaky test tracked in an issue; quarantined only with owner approval"
+      ],
+      "reasoning": [
+        "Failure signature: 'unit_test|timeout_error'",
+        "Experience for this signature (confirmed categories): {'FLAKY_TEST_OR_CI_INFRA': 5, 'TEST_FAILURE': 3}",
+        "Laplace-smoothed P(category|signature): FLAKY_TEST_OR_CI_INFRA=0.50, TEST_FAILURE=0.33, DEPENDENCY_FAILURE=0.08, DEPLOYMENT_HEALTH_FAILURE=0.08",
+        "Action success rates for FLAKY_TEST_OR_CI_INFRA ((s+1)/(s+f+2)):",
+        "  Re-run the job on a different runner and check runner/test-DB health: 5 success / 1 failure -> 0.75",
+        "  Increase the test timeout: 2 success / 3 failure -> 0.429",
+        "  Quarantine the test immediately: 1 success / 2 failure -> 0.4",
+        "Chosen: 'Re-run the job on a different runner and check runner/test-DB health' because it has the highest learned success rate.",
+        "Feedback recorded in the UI updates these counts and can change future decisions."
+      ],
+      "confidence": 0.5,
+      "details": {
+        "signature": "unit_test|timeout_error",
+        "signature_counts": {
+          "FLAKY_TEST_OR_CI_INFRA": 5,
+          "TEST_FAILURE": 3
+        },
+        "action_stats": [
+          {
+            "action": "Re-run the job on a different runner and check runner/test-DB health",
+            "success": 5,
+            "failure": 1,
+            "success_rate": 0.75
+          },
+          {
+            "action": "Increase the test timeout",
+            "success": 2,
+            "failure": 3,
+            "success_rate": 0.429
+          },
+          {
+            "action": "Quarantine the test immediately",
+            "success": 1,
+            "failure": 2,
+            "success_rate": 0.4
+          }
+        ],
+        "exploratory": false,
+        "episodes_so_far": 0
+      },
+      "category_label": "Flaky test or CI infrastructure problem (non-deterministic)"
+    },
+    "LLM (Ollama + tools)": {
+      "agent": "LLM (Ollama + tools)",
+      "mechanism": "Local LLM via LangChain; investigates by tool calling; grounded, verified JSON answer",
+      "failure_category": "DEPENDENCY_FAILURE",
+      "evidence": [
+        "[get_pipeline_status] failed_stage: unit_test  (verified)",
+        "[get_test_results] TimeoutError: connection to postgres-test:5432 timed out after 30s  (verified)"
+      ],
+      "likely_cause": "The unit test failed due to a timeout error, which suggests a dependency issue, specifically a connection problem with the PostgreSQL test database.",
+      "next_step": "Check the PostgreSQL test database connection and ensure it is running and accessible.",
+      "verification_checklist": [
+        "Verify that the PostgreSQL test database is up and running.",
+        "Check the network configuration to ensure there are no firewall or routing issues.",
+        "Ensure the database credentials and connection settings are correct."
+      ],
+      "reasoning": [
+        "Step 1: called get_pipeline_status()",
+        "Step 2: called get_test_results()",
+        "Step 3: model produced final answer",
+        "Tools used (2 distinct): get_pipeline_status, get_test_results",
+        "Grounding check: 2/2 evidence quotes found in tool outputs",
+        "Model reasoning: The test failure indicates a connection timeout to the PostgreSQL test database, which points to a dependency issue rather than a code bug. The timeout suggests that the database is either not running or not accessible, which is a dependency failure."
+      ],
+      "confidence": 0.95,
+      "details": {
+        "model": "qwen3:8b",
+        "tool_calls": [
+          {
+            "step": 1,
+            "tool": "get_pipeline_status",
+            "args": {},
+            "output": "{\n \"pipeline\": \"shop-api / main\",\n \"run_id\": 4842,\n \"branch\": \"main\",\n \"commit\": \"f81aa05\",\n \"parent_commit\": \"e5d2f19\",\n \"trigger\": \"push\",\n \"overall\": \"failed\",\n \"failed_stage\": \"unit_test\",\n \"stages\": [\n  {\n   \"name\": \"checkout\",\n   \"status\": \"success\",\n   \"duration_s\": 5\n  },\n  {\n   \"name\": \"build\",\n   \"status\": \"success\",\n   \"duration_s\": 66\n  },\n  {\n   \"name\": \"unit_test\",\n   \"status\": \"failed\",\n   \"duration_s\": 212\n  },\n  {\n   \"name\": \"package\",\n   \"status\": \"skipped\",\n   \"duration_s\": 0\n  },\n  {\n   \"name\": \"deploy_canary\",\n   \"status\": \"skipped\",\n   \"duration_s\": 0\n  },\n  {\n   \"name\": \"health_check\",\n   \"status\": \"skipped\",\n   \"duration_s\": 0\n  }\n ]\n}"
+          },
+          {
+            "step": 2,
+            "tool": "get_test_results",
+            "args": {},
+            "output": "{\n \"executed\": true,\n \"total\": 194,\n \"passed\": 193,\n \"failed\": 1,\n \"skipped\": 0,\n \"failed_on_retry\": null,\n \"failures\": [\n  {\n   \"test\": \"tests/integration/test_order_sync.py::test_sync_orders_to_warehouse\",\n   \"error_type\": \"TimeoutError\",\n   \"message\": \"connection to postgres-test:5432 timed out after 30s\",\n   \"module_under_test\": \"shop_api/sync/warehouse.py\"\n  }\n ]\n}"
+          }
+        ],
+        "distinct_tools": [
+          "get_pipeline_status",
+          "get_test_results"
+        ],
+        "grounding_score": 1.0,
+        "evidence_check": [
+          {
+            "tool": "get_pipeline_status",
+            "quote": "failed_stage: unit_test",
+            "verified": true,
+            "tool_was_called": true
+          },
+          {
+            "tool": "get_test_results",
+            "quote": "TimeoutError: connection to postgres-test:5432 timed out after 30s",
+            "verified": true,
+            "tool_was_called": true
+          }
+        ],
+        "raw_response": "{\n  \"failure_category\": \"DEPENDENCY_FAILURE\",\n  \"evidence\": [\n    {\"tool\": \"get_pipeline_status\", \"quote\": \"failed_stage: unit_test\"},\n    {\"tool\": \"get_test_results\", \"quote\": \"TimeoutError: connection to postgres-test:5432 timed out after 30s\"}\n  ],\n  \"likely_cause\": \"The unit test failed due to a timeout error, which suggests a dependency issue, specifically a connection problem with the PostgreSQL test database.\",\n  \"next_step\": \"Check the PostgreSQL test database connection and ensure it is running and accessible.\",\n  \"verification_checklist\": [\n    \"Verify that the PostgreSQL test database is up and running.\",\n    \"Check the network configuration to ensure there are no firewall or routing issues.\",\n    \"Ensure the database credentials and connection settings are correct.\"\n  ],\n  \"confidence\": 0.95,\n  \"reasoning\": \"The test failure indicates a connection timeout to the PostgreSQL test database, which points to a dependency issue rather than a code bug. The timeout suggests that the database is either not running or not accessible, which is a dependency failure.\"\n}",
+        "elapsed_s": 38.9
+      },
+      "category_label": "Build failure (dependency / version unavailable or incompatible)"
+    }
+  }
+}
